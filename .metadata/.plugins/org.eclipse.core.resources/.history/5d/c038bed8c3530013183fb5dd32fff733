@@ -1,0 +1,10 @@
+package eecs285;
+
+public class GameWindow {
+
+	
+	public void updateView(){
+		
+	}
+	
+}

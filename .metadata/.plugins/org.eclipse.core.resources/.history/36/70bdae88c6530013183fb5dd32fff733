@@ -1,0 +1,14 @@
+package eecs285;
+
+public class Driver {
+
+	private Game game;
+	
+	public Driver(GameWindow gameWindow){
+		this.gameWindow = gameWindow;
+		
+		
+		
+	}
+
+}

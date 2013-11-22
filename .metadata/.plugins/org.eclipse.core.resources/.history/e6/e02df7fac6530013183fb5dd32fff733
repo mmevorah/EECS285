@@ -1,0 +1,16 @@
+package eecs285;
+
+public class Driver {
+
+	private GameWindow gameWindow;
+	private Player player1;
+	private Player player2;
+	
+	public Driver(Player player1, Player player2, GameWindow gameWindow){
+		this.player1 = player1;
+		this.player2 = player2;
+		
+		
+	}
+
+}

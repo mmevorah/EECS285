@@ -1,0 +1,8 @@
+package eecs285;
+
+public class Game {
+
+	private GameWindow gameWindow;
+	private Player player1;
+	private Player player2;
+}

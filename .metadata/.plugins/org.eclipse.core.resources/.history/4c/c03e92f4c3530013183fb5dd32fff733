@@ -1,0 +1,12 @@
+package eecs285;
+
+public class GameWindow {
+
+	
+	public void updateView(){
+		//Update Character Positions
+		//Update status stuff ie. health
+		
+	}
+	
+}

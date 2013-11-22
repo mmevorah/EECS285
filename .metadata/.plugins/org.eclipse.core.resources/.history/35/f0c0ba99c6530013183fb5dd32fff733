@@ -1,0 +1,13 @@
+package eecs285;
+
+public class Driver {
+
+	private Game game;
+	
+	public Driver(Player player1, Player player2, GameWindow gameWindow){
+		
+		
+		
+	}
+
+}
