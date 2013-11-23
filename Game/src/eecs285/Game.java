@@ -12,7 +12,7 @@ public class Game {
 		this.player2 = new Player();
 		this.gameWindow = new GameWindow();
 		driver = new Driver(player1, player2, gameWindow);
-		driver.update();
+		driver.run();
 	}
 	
 }
