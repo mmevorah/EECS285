@@ -12,25 +12,16 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class ipFrame extends JDialog {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JFrame ipFrame = new JFrame("Get IP Address");
+
 	private JTextField ip_send_field;
 	private JButton sendButton;
 	private String ipAddress;
 
 	public ipFrame()
-	{
-		JFrame ipframe;
-		boolean is_server;
-		String ip;
-		ipFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ipFrame.setSize(400,100);
-		ipFrame.setLayout(new BorderLayout());
-		boolean is_serv = true;
-
+	{		
+		setSize(400,100);
+		setLayout(new BorderLayout());
+		
 		InetAddress ip1 = null;
 		try{
 			ip1 = InetAddress.getLocalHost();
@@ -39,11 +30,12 @@ public class ipFrame extends JDialog {
 
 		}
 
-
 		ipAddress = ip1.toString();
-
-		ip_send_field = new JTextField(20);
 		JLabel prompt = new JLabel (" Please copy the IP Address Seen Here : " + ipAddress);
+		add(prompt, BorderLayout.NORTH);
+	
+		ip_send_field = new JTextField(20);
+		add(ip_send_field, BorderLayout.CENTER);
 
 		sendButton = new JButton ("Send");
 		sendButton.addActionListener(new ActionListener()
@@ -54,13 +46,11 @@ public class ipFrame extends JDialog {
 				setVisible(false);
 			}
 		});
+		add(sendButton, BorderLayout.SOUTH);
 
-
-		ipFrame.add(prompt, BorderLayout.NORTH);
-		ipFrame.add(ip_send_field, BorderLayout.CENTER);
-		ipFrame.add(sendButton, BorderLayout.SOUTH);
-
-		ipFrame.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		setVisible(true);
 	}
 	
 	public String get_ip()
