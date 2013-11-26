@@ -1,13 +1,5 @@
 package eecs285;
 
-import java.awt.BorderLayout;
-import java.net.InetAddress;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class Main {
 
@@ -16,7 +8,13 @@ public class Main {
 		ipFrame ip_frame;
 		ip_frame = new ipFrame();
 		
+		ip_frame.setVisible(true);
+
+		String ipStr = ip_frame.get_ip();
 		
+		Game game = new Game(ipStr);
+
+
 	}
 	
 }

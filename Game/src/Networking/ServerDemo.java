@@ -20,8 +20,10 @@ public class ServerDemo {
 		
 		theServer = new ClientServerSocket(ip.toString(), 45000);
 		theServer.startServer();
+		
 		recvdStr = theServer.recvString();
 		System.out.println("Recevied message from client: " + recvdStr);
+		
 		theServer.sendString("Back at ya client");
 	}
 

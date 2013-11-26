@@ -1,22 +1,34 @@
 package eecs285;
 
+import java.net.InetAddress;
+
+import Networking.ClientServerSocket;
+
 public class Driver {
 
 	private Player player1;
 	private Player player2;
 	private GameWindow gameWindow;
 	
-	public Driver(Player player1, Player player2, GameWindow gameWindow){
+    ClientServerSocket network;
+	
+	
+	public Driver(Player player1, Player player2, GameWindow gameWindow, ClientServerSocket network){
 		this.player1 = player1;
 		this.player2 = player2;
 		this.gameWindow = gameWindow;
+		
+		this.network = network;
+		
 	}
 	
 	public void run(){
 	    long lastLoopTime = System.nanoTime();
-	    final int TARGET_FPS = 60;
+	    final int TARGET_FPS = 20;
 	    final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+	    
 	    long lastFpsTime = 0;
+	    
 	    while(true){
 	        long now = System.nanoTime();
 	        long updateLength = now - lastLoopTime;
@@ -41,9 +53,19 @@ public class Driver {
 	}
 	
 	public void update(double delta){
-		//update player 1
+		//update player 1 info
+		//send updated player 1 information
+		network.sendString("Yo");
+		
+		//get player 2 information
+		String recieved = network.recvString();
 		//update player 2
-		//update gameWindow
+		System.out.println(recieved);
+		
+		//render player 1
+		//render player 2
+		//render game window
+		
 	}
 
 }
