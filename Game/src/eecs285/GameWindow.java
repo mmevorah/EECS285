@@ -1,6 +1,12 @@
 package eecs285;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  * Actual game window. Its a view controller that draws everything within the
@@ -14,8 +20,24 @@ public class GameWindow extends JFrame {
 	//Player localPlayer
 	//Player opponentPlayer
 	
+	ImageIcon backgroundImage;
+	
 	public GameWindow() {
-		setSize(200, 200);
+		
+		JLabel backgroundLabel;
+		try {
+			File backgroundFile = new File("src/eecs285/graphics/background.jpg");
+			backgroundImage = new ImageIcon(ImageIO.read(backgroundFile));
+			backgroundLabel = new JLabel(backgroundImage);
+			setContentPane(backgroundLabel);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		setTitle("Internet Fighter");
+		setSize(1000, 800);
+		setResizable(false);
 
 		
 		//Format game window
