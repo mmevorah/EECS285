@@ -43,12 +43,12 @@ public class Main {
 		ipFrame.add(ip_send_field, BorderLayout.CENTER);
 		ipFrame.add(sendButton, BorderLayout.SOUTH);
 		
-<<<<<<< HEAD
-		String ip = "";
-		Game game = new Game(ip);
-=======
+		
+		Game game = new Game(ip.toString());
+
 		ipFrame.setVisible(true);
->>>>>>> 9cf414924186f7de5a9fb6cb0b72c3f7743b405f
+
+		ipFrame.setVisible(true);
 	}
 	
 }
