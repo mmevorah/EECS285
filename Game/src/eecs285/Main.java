@@ -4,7 +4,7 @@ package eecs285;
 public class Main {
 
 	public static void main(String[] args){
-		
+	/*	
 		ipFrame ip_frame;
 		ip_frame = new ipFrame();
 		//ip_frame.setVisible(true);
@@ -12,8 +12,10 @@ public class Main {
 		String ipStr = ip_frame.get_ip();
 		
 		while(!ip_frame.isVisible()){
-			Game game = new Game(ipStr);
 		}
+*/		
+		
+		Game game = new Game("");
 
 
 	}

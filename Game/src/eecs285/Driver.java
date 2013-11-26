@@ -1,6 +1,6 @@
 package eecs285;
 
-import java.net.InetAddress;
+import java.io.IOException;
 
 import Networking.ClientServerSocket;
 
@@ -55,12 +55,27 @@ public class Driver {
 	public void update(double delta){
 		//update player 1 info
 		//send updated player 1 information
-		network.sendString("Yo");
+
+		char a = 0;
+		try {
+			a = (char)System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String s = "" + a;
+		System.out.println(s);
 		
 		//get player 2 information
-		String recieved = network.recvString();
+		//String recieved = network.recvString();
 		//update player 2
-		System.out.println(recieved);
+		
+		network.sendString(s);
+		
+		
+		String fromInternet = network.recvString();
+		
+		//System.out.println(recieved);
 		
 		//render player 1
 		//render player 2
