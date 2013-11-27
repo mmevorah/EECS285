@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 
 public class Entity {
 	int x, y;
-	
+	//Holds each object
 	public Entity(int x, int y) {
 		this.x = x;
 		this.y = y;

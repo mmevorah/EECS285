@@ -7,8 +7,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Player extends Entity {
-	
+
 	int velX = 0, velY = 0;
+	
 	public Player(int x, int y) {
 		super(x, y);
 	}
@@ -22,32 +23,33 @@ public class Player extends Entity {
 		g2d.drawImage(getPlayerImg(), x, y, null);
 	}
 	
+	//Returns the updated player image
 	public Image getPlayerImg() {
-		ImageIcon ic = new ImageIcon("/eecs285.graphics/Player.png");
+		ImageIcon ic = new ImageIcon(getClass().getResource("/Test.jpeg"));
 		return ic.getImage();
 	}
 	
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_W) {
+		if(key == KeyEvent.VK_UP) {
 			velY = -2;
-		} else if(key == KeyEvent.VK_S) {
+		} else if(key == KeyEvent.VK_DOWN) {
 			velY = 2;
-		} else if(key == KeyEvent.VK_A) {
+		} else if(key == KeyEvent.VK_LEFT) {
 			velX = -2;
-		} else if(key == KeyEvent.VK_D) {
+		} else if(key == KeyEvent.VK_RIGHT) {
 			velX = 2;
 		}
 	}
-	public void KeyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_W) {
+		if(key == KeyEvent.VK_UP) {
 			velY = 0;
-		} else if(key == KeyEvent.VK_S) {
+		} else if(key == KeyEvent.VK_DOWN) {
 			velY = 0;
-		} else if(key == KeyEvent.VK_A) {
+		} else if(key == KeyEvent.VK_LEFT) {
 			velX = 0;
-		} else if(key == KeyEvent.VK_D) {
+		} else if(key == KeyEvent.VK_RIGHT) {
 			velX = 0;
 		}
 	}
