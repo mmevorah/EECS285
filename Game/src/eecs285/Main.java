@@ -19,7 +19,12 @@ public class Main {
 		}
 */		
 		
-		Game game = new Game("");
+		GameWindow gameWindow = new GameWindow();
+		
+		
+		
+	//	@SuppressWarnings("unused")
+//		Game game = new Game("");
 
 
 	}

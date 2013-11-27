@@ -17,8 +17,8 @@ import javax.swing.JLabel;
  */
 public class GameWindow extends JFrame {
 
-	//Player localPlayer
-	//Player opponentPlayer
+	Player localPlayer;
+	Player opponentPlayer;
 	
 	ImageIcon backgroundImage;
 	
@@ -33,23 +33,17 @@ public class GameWindow extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+			
 		setTitle("Internet Fighter");
 		setSize(1000, 800);
 		setResizable(false);
-
-		
-		//Format game window
-		///Size is a medium to large window
-		///Set title to game title (pending)
-		///Set background to an image
 		
 		setVisible(true);
 	}
 
 	public void updateView() {
-
+	
+		
 		//look at player class to get exact names of methods
 		
 		//localPlayer.getImage();
