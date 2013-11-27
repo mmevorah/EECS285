@@ -57,12 +57,6 @@ public class Driver {
 		//send updated player 1 information
 
 		char a = 0;
-		try {
-			a = (char)System.in.read();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		String s = "" + a;
 		System.out.println(s);
 		
@@ -75,12 +69,15 @@ public class Driver {
 		
 		String fromInternet = network.recvString();
 		
-		//System.out.println(recieved);
+		
+		System.out.println(fromInternet);
 		
 		//render player 1
 		//render player 2
 		//render game window
 		
 	}
+	
+	
 
 }
