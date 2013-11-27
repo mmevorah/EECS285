@@ -15,7 +15,7 @@ public class KeyAdapt extends KeyAdapter {
 		p.keyPressed(e);
 	}
 	
-	public void KeyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent e) {
 		p.keyReleased(e);
 	}
 }
