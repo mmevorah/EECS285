@@ -28,7 +28,7 @@ public class Player extends Entity {
 	
 	//Returns the updated player image
 	public Image getPlayerImg() {
-		ImageIcon ic = new ImageIcon(getClass().getResource("/player.png"));
+		ImageIcon ic = new ImageIcon(getClass().getResource("/eecs285/graphics/player.png"));
 		return ic.getImage();
 	}
 	
