@@ -17,10 +17,12 @@ public class GamePanel extends JPanel implements ActionListener {
 	Player localPlayer;
 	Player internetPlayer;
 	
-	public GamePanel() { 
+	public GamePanel(/*Player localPlayer*/) { 
 		setFocusable(true);
 	
-		localPlayer = new Player(75, 175);	
+		//this.localPlayer = localPlayer;
+		localPlayer = new Player(100, 100);
+		
 		addKeyListener(new KeyAdapt(localPlayer));
 			
 		mainTimer = new Timer(10, this);
@@ -33,6 +35,8 @@ public class GamePanel extends JPanel implements ActionListener {
 		localPlayer.draw(g2d);
 	}
 	
+	
+	//Clock Loop
 	public void actionPerformed(ActionEvent arg0) {
 		localPlayer.update();
 		repaint();

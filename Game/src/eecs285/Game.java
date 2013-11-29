@@ -2,24 +2,33 @@ package eecs285;
 
 import java.net.InetAddress;
 
+import javax.swing.JFrame;
+
 import Networking.ClientServerSocket;
 
 public class Game {
 
-	private Player player1;
-	private Player player2;
-	private GameWindow gameWindow;
-	private Driver driver;
+	private Player localPlayer;
 	
 	public Game(String ipInfo){
-		this.player1 = new Player();
-		this.player2 = new Player();
-		this.gameWindow = new GameWindow();
+		/*try{
+			ClientServerSocket network = initNetworkSocket(ipInfo);
+		}catch(Exception e){
+			e.printStackTrace();
+		}*/
+		JFrame gameWindow = new JFrame();
+		gameWindow.setTitle("Internet Fighter");
+		gameWindow.setSize(800, 600);
+		gameWindow.setResizable(false);
 		
-		ClientServerSocket network = initNetworkSocket(ipInfo);
+		//GamePanel gamePanel = new GamePanel(localPlayer);
+		GamePanel gamePanel = new GamePanel();
 		
-		driver = new Driver(player1, player2, gameWindow, network);
-		driver.run();
+		gameWindow.add(gamePanel);
+		
+		gameWindow.setVisible(true);
+		
+		
 	}
 	
 	public ClientServerSocket initNetworkSocket(String ipInfo){
@@ -28,6 +37,9 @@ public class Game {
 		
 		//Server
 		if(ipInfo.equals("")){
+			
+			localPlayer = new Player(Consts.LEFT_XPOS, Consts.LEFT_YPOS);
+			
 			InetAddress ip = null;
 			try{
 				
@@ -38,10 +50,14 @@ public class Game {
 		
 			network = new ClientServerSocket(ip.toString(), 45000);
 			network.startServer();
+			
 		}else{
 		//Client
+		
+			localPlayer = new Player(Consts.RIGHT_XPOS, Consts.RIGHT_YPOS);
+			
 			network = new ClientServerSocket(ipInfo, 45000);
-			network.startClient();
+			network.startClient();			
 		}	
 		
 		return network;	
