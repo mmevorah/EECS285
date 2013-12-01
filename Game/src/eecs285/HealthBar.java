@@ -14,12 +14,18 @@ public class HealthBar extends JApplet {
 	/**
 	 * 
 	 */
+	private int health = 100;
 	private static final long serialVersionUID = 1L;
 
 	public void initialize() 
 	{
 		setBackground(Color.white);
 		setForeground(Color.white);
+	}
+	
+	public void set_health(int setter)
+	{
+		health = setter;
 	}
 	
 	public void paint(Graphics g)
@@ -36,8 +42,10 @@ public class HealthBar extends JApplet {
 		    //the third dimension here is current health
 		    //I just set it at 100 to see if it would
 		    //work
-		    g2.fill(new Rectangle2D.Double(x, y, 100, 100));
+		    g2.fill(new Rectangle2D.Double(x, y, health, 100));
 		    g2.setPaint(Color.black);
 		
 	}
+	
+	
 }
