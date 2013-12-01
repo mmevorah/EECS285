@@ -6,6 +6,11 @@ public class Consts {
 	public static final int RIGHT_XPOS = 9;
 	public static final int RIGHT_YPOS = 10;
 	
+	public static final int LOCALHEALTH_X = 50;
+	public static final int LOCALHEALTH_Y = 50;
+	public static final int INTERNETHEALTH_X = 500;
+	public static final int INTERNETHEALTH_Y = 50;
+	
 	public static final int LEFT_BOUND = 0;
 	public static final int RIGHT_BOUND = 755;
 	public static final int BOTTOM_BOUND = 555;
