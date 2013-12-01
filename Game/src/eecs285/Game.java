@@ -1,8 +1,13 @@
 package eecs285;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import Networking.ClientServerSocket;
 
@@ -23,8 +28,9 @@ public class Game {
 		gameWindow.setSize(800, 600);
 		gameWindow.setResizable(false);
 		
-		GamePanel gamePanel = new GamePanel(network);
-		
+		setBackground(gameWindow, 1);
+
+		GamePanel gamePanel = new GamePanel(network);	
 		gameWindow.add(gamePanel);
 		
 		gameWindow.setVisible(true);
@@ -34,6 +40,8 @@ public class Game {
 	public ClientServerSocket initNetworkSocket(String ipInfo){
 
 		ClientServerSocket network;
+		
+		localPlayer = new Player(Consts.LEFT_XPOS, Consts.LEFT_YPOS);
 		
 		//Server
 		if(ipInfo.equals("")){
@@ -60,6 +68,10 @@ public class Game {
 		}	
 		
 		return network;	
+	}
+
+	public void setBackground(JFrame gameWindow, int background){
+		
 	}
 	
 }
