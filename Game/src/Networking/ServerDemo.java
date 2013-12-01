@@ -2,13 +2,14 @@ package Networking;
 
 import java.net.InetAddress;
 
+import eecs285.Player;
 
 public class ServerDemo {
 
 	public static void main(String args[])
 	{
 		ClientServerSocket theServer;
-		String recvdStr;
+		Player p;
 		
 		InetAddress ip = null;
 		try{
@@ -18,15 +19,12 @@ public class ServerDemo {
 			
 		}
 		
-		theServer = new ClientServerSocket(ip.toString(), 45000);
+		theServer = new ClientServerSocket("localhost", 45001);
 		theServer.startServer();
 		
-		recvdStr = theServer.recvString();
-		System.out.println("Recevied message from client: " + recvdStr);
+		p = new Player(1, 1);
 		
-		theServer.sendString("Back at ya client");
+		theServer.sendPlayer(p);		
 	}
-
-
 
 }
