@@ -274,13 +274,18 @@ public class Player extends Entity {
 		return attackDamage;
 	}
 	
+	public boolean attacked = false;
+	public boolean getAt(){
+		return attacked;
+	}
+	
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_W) {
+		if(key == KeyEvent.VK_UP) {
 			setJumping(true);
-		} else if(key == KeyEvent.VK_A) {
+		} else if(key == KeyEvent.VK_LEFT) {
 			setLeft(true);
-		} else if(key == KeyEvent.VK_D) {
+		} else if(key == KeyEvent.VK_RIGHT) {
 			setRight(true);
 		} else if(key == KeyEvent.VK_SHIFT){
 			setAttacking(true);
@@ -289,11 +294,11 @@ public class Player extends Entity {
 	
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_W) {
+		if(key == KeyEvent.VK_UP) {
 			setJumping(false);
-		} else if(key == KeyEvent.VK_A) {
+		} else if(key == KeyEvent.VK_LEFT) {
 			setLeft(false);
-		} else if(key == KeyEvent.VK_D) {
+		} else if(key == KeyEvent.VK_RIGHT) {
 			setRight(false);
 		} else if(key == KeyEvent.VK_SHIFT){
 			setAttacking(false);

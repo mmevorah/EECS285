@@ -28,9 +28,9 @@ public class GamePanel extends JPanel implements ActionListener {
 		
 		this.network = network;
 		
-		this.localHealthBar = new HealthBar(Consts.LOCALHEALTH_X, Consts.LOCALHEALTH_Y);
-		this.internetHealthBar = new HealthBar(Consts.INTERNETHEALTH_X, Consts.INTERNETHEALTH_Y);
-			
+		this.localHealthBar = new HealthBar(Consts.LOCALHEALTH_X, Consts.LOCALHEALTH_Y, true);
+		this.internetHealthBar = new HealthBar(Consts.INTERNETHEALTH_X, Consts.INTERNETHEALTH_Y, false);
+		
 		mainTimer = new Timer(10, this);
 		mainTimer.start();
 	}
@@ -49,34 +49,40 @@ public class GamePanel extends JPanel implements ActionListener {
 	//Clock Loop
 	public void actionPerformed(ActionEvent arg0) {
 		localPlayer.update(true);
-		
-		if((localPlayer.intersects(internetPlayer)) && (localPlayer.attacking)){
+				
+	
+		if((localPlayer.intersects(internetPlayer)) && (localPlayer.attacking)){			
 			int tmpHealth = internetPlayer.getHealth();
 			int newHealth = tmpHealth-localPlayer.getAttackDamage();
+			
+			System.out.println("oldh:"+tmpHealth+" newh:"+newHealth);
 			internetPlayer.setHealth(newHealth);
+			
+			localPlayer.attacking = false;
 		}
-		if((internetPlayer.intersects(internetPlayer)) && (internetPlayer.attacking)){
-			int tmpHealth = localPlayer.getHealth();
-			int newHealth = tmpHealth-internetPlayer.getAttackDamage();
-			localPlayer.setHealth(newHealth);
-		}
+		
 		
 		PlayerInfo b = new PlayerInfo();
 		b.x = localPlayer.getx();
 		b.y = localPlayer.gety();
 		b.dx = localPlayer.getdx();
 		b.dy = localPlayer.getdy();
-		b.health = localPlayer.getHealth();
 		b.left = localPlayer.left;
 		b.right = localPlayer.right;
 		b.jumping = localPlayer.jumping;
 		b.falling = localPlayer.falling;
 		b.attacking = localPlayer.attacking;
 		
+		b.internetHealth = localPlayer.getHealth();
+		b.localHealth = internetPlayer.getHealth();
+		
 		network.sendPlayer(b);
 		
 		PlayerInfo rec = network.recvPlayer();
-		internetPlayer.setHealth(rec.health);
+		
+		localPlayer.setHealth(rec.localHealth);
+		internetPlayer.setHealth(rec.internetHealth);
+		
 		internetPlayer.setPosition(rec.x, rec.y);
 		internetPlayer.setVector(rec.dx, rec.dy);
 		internetPlayer.setLeft(rec.left);

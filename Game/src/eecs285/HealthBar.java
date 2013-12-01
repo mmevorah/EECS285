@@ -1,13 +1,10 @@
 package eecs285;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
-
-import javax.swing.JApplet;
 
 public class HealthBar{
 	
@@ -22,10 +19,13 @@ public class HealthBar{
 
 	private int x;
 	private int y;
+	private boolean local;
 	
-	public HealthBar(int x, int y) {
+	public HealthBar(int x, int y, boolean local) {
 		this.x = x;
 		this.y = y;
+		this.local = local;
+	
 	}
 	
 	public void set_health(int setter)
@@ -48,7 +48,17 @@ public class HealthBar{
 		    
 		    g2.setPaint(Color.green);
 		    g2.fill(new Rectangle2D.Double(x, y, health * SCALE, 40));
-		
+		    
+		    g2.setPaint(Color.white);
+		    
+		    g2.setFont(new Font("default", Font.BOLD, 16));
+		    if(local){
+		    	g2.drawString("YOU", x + 5, y + 25);
+		    }else{
+		    	g2.drawString("THEM", x + 5, y + 25);
+		    }
+		    
+		    
 	}
 	
 	

@@ -41,6 +41,8 @@ public class Game {
 
 		ClientServerSocket network;
 		
+		localPlayer = new Player(Consts.LEFT_XPOS, Consts.LEFT_YPOS);
+		
 		//Server
 		if(ipInfo.equals("")){
 			
