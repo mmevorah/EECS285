@@ -1,3 +1,4 @@
+
 package eecs285;
 
 import java.io.File;
@@ -11,9 +12,10 @@ import javax.swing.JLabel;
 
 import Networking.ClientServerSocket;
 
-public class Game {
+public class Game extends JFrame {
 
 	private Player localPlayer;
+	
 	
 	public Game(String ipInfo){
 		ClientServerSocket network = null;
@@ -34,14 +36,11 @@ public class Game {
 		gameWindow.add(gamePanel);
 		
 		gameWindow.setVisible(true);
-		
 	}
 	
 	public ClientServerSocket initNetworkSocket(String ipInfo){
 
 		ClientServerSocket network;
-		
-		localPlayer = new Player(Consts.LEFT_XPOS, Consts.LEFT_YPOS);
 		
 		//Server
 		if(ipInfo.equals("")){
@@ -58,6 +57,12 @@ public class Game {
 			network = new ClientServerSocket(/*ip.toString()*/ "localhost", 45000);
 			network.startServer();
 			
+			//Server is asked to select the map
+			MapMenu map = new MapMenu("Map Menu");
+			map.setSize(800, 600);
+			map.setVisible(true);
+			map.setResizable(false);
+			map.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}else{
 		//Client
 		
