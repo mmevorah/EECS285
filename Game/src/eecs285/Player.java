@@ -4,11 +4,16 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
-public class Player extends Entity {
+public class Player extends Entity implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int velX = 0, velY = 0;
 	int speed = 2;
 	public Player(int x, int y) {

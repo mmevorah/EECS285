@@ -8,22 +8,22 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import eecs285.KeyAdapt;
-import eecs285.Player;
+import Networking.ClientServerSocket;
 
 public class GamePanel extends JPanel implements ActionListener {
 	
 	Timer mainTimer;
 	Player localPlayer;
 	Player internetPlayer;
+	ClientServerSocket network;
 	
-	public GamePanel(/*Player localPlayer*/) { 
+	public GamePanel(ClientServerSocket network) { 
 		setFocusable(true);
 	
-		//this.localPlayer = localPlayer;
 		localPlayer = new Player(100, 100);
-		
 		addKeyListener(new KeyAdapt(localPlayer));
+		
+		this.network = network;
 			
 		mainTimer = new Timer(10, this);
 		mainTimer.start();
@@ -33,12 +33,17 @@ public class GamePanel extends JPanel implements ActionListener {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		localPlayer.draw(g2d);
+		internetPlayer.draw(g2d);
 	}
 	
 	
 	//Clock Loop
 	public void actionPerformed(ActionEvent arg0) {
 		localPlayer.update();
+		
+		network.sendPlayer(localPlayer);
+		internetPlayer = network.recvPlayer();
+			
 		repaint();
 	}
 	

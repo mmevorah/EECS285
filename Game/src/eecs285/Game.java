@@ -11,23 +11,23 @@ public class Game {
 	private Player localPlayer;
 	
 	public Game(String ipInfo){
-		/*try{
-			ClientServerSocket network = initNetworkSocket(ipInfo);
+		ClientServerSocket network = null;
+		try{
+			network = initNetworkSocket(ipInfo);
 		}catch(Exception e){
 			e.printStackTrace();
-		}*/
+		}
+		
 		JFrame gameWindow = new JFrame();
 		gameWindow.setTitle("Internet Fighter");
 		gameWindow.setSize(800, 600);
 		gameWindow.setResizable(false);
 		
-		//GamePanel gamePanel = new GamePanel(localPlayer);
-		GamePanel gamePanel = new GamePanel();
+		GamePanel gamePanel = new GamePanel(network);
 		
 		gameWindow.add(gamePanel);
 		
 		gameWindow.setVisible(true);
-		
 		
 	}
 	
@@ -48,7 +48,7 @@ public class Game {
 				}catch(Exception e){		
 				}
 		
-			network = new ClientServerSocket(ip.toString(), 45000);
+			network = new ClientServerSocket(/*ip.toString()*/ "localhost", 45000);
 			network.startServer();
 			
 		}else{

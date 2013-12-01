@@ -1,26 +1,17 @@
 package eecs285;
 
+import javax.swing.JFrame;
+
 
 public class Main {
 
 	public static void main(String[] args){
 		//IP Frame stuff
-		/*	
-		ipFrame ip_frame;
-		ip_frame = new ipFrame();
-		//ip_frame.setVisible(true);
 		
-		//ip_frame.setVisible(true);
-
-		
-		//Game game = new Game(ipStr);
-		String ipStr = ip_frame.get_ip();
-		
-		while(!ip_frame.isVisible()){
-		}
-*/		
-		
-		Game game = new Game("69.248.131.56");
+		JFrame blah = new JFrame();
+		IpFrame ipFrame = new IpFrame(blah, "IP Exchange");
+		String ip = ipFrame.get_input();
+		Game game = new Game(ip);
 
 	}
 	

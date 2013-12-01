@@ -12,14 +12,14 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class ipFrame extends JDialog {
+public class IpFrame extends JDialog {
 
 	private JTextField ip_send_field;
 	private JButton sendButton;
 	private String ipAddress;
 	private String input;
 
-	public ipFrame(JFrame mainFrame, String title)
+	public IpFrame(JFrame mainFrame, String title)
 	{	
 		super(mainFrame, title, true);
 		setSize(500,100);
