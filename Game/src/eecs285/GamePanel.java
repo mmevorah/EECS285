@@ -105,6 +105,9 @@ public class GamePanel extends JPanel implements ActionListener {
 	
 	public void setBackGround(JFrame mainframe, ImageIcon image)
 	{
+		//this will just take in a jframe that we will make in the main
+		//and set the background of it to the image location set 
+		//as the second variable
 		mainframe.setLayout(new BorderLayout());
 		JLabel background=new JLabel(image);
 		mainframe.add(background);
