@@ -1,10 +1,14 @@
 package eecs285;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -57,6 +61,13 @@ public class GamePanel extends JPanel implements ActionListener {
 		internetPlayer.setVector(rec.dx, rec.dy);
 			
 		repaint();
+	}
+	
+	public void setBackGround(JFrame mainframe, ImageIcon image)
+	{
+		mainframe.setLayout(new BorderLayout());
+		JLabel background=new JLabel(image);
+		mainframe.add(background);
 	}
 	
 }
