@@ -9,18 +9,23 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JApplet;
 
-public class HealthBar extends JApplet {
+public class HealthBar{
 	
 	/**
 	 * 
 	 */
+	private int MAX_HEALTH = 100;
 	private int health = 100;
 	private static final long serialVersionUID = 1L;
+	
+	private static final double SCALE = 2.5;
 
-	public void initialize() 
-	{
-		setBackground(Color.white);
-		setForeground(Color.white);
+	private int x;
+	private int y;
+	
+	public HealthBar(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 	
 	public void set_health(int setter)
@@ -28,22 +33,21 @@ public class HealthBar extends JApplet {
 		health = setter;
 	}
 	
-	public void paint(Graphics g)
+	public void draw(Graphics2D g2)
 	{
-		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 		        RenderingHints.VALUE_ANTIALIAS_ON);
 
 		    g2.setPaint(Color.gray);
-		    int x = 1;
-		    int y = 5;
 
-		    g2.setPaint(Color.green);
 		    //the third dimension here is current health
 		    //I just set it at 100 to see if it would
 		    //work
-		    g2.fill(new Rectangle2D.Double(x, y, health, 100));
 		    g2.setPaint(Color.black);
+		    g2.fill(new Rectangle2D.Double(x- 10, y - 10, MAX_HEALTH * SCALE + 20, 60));
+		    
+		    g2.setPaint(Color.green);
+		    g2.fill(new Rectangle2D.Double(x, y, health * SCALE, 40));
 		
 	}
 	

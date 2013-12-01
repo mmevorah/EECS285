@@ -16,6 +16,8 @@ public class GamePanel extends JPanel implements ActionListener {
 	Player localPlayer;
 	Player internetPlayer;
 	ClientServerSocket network;
+	HealthBar localHealthBar;
+	HealthBar internetHealthBar;
 	
 	public GamePanel(ClientServerSocket network) { 
 		setFocusable(true);
@@ -25,6 +27,9 @@ public class GamePanel extends JPanel implements ActionListener {
 		internetPlayer = new Player(100,100);
 		
 		this.network = network;
+		
+		this.localHealthBar = new HealthBar(Consts.LOCALHEALTH_X, Consts.LOCALHEALTH_Y);
+		this.internetHealthBar = new HealthBar(Consts.INTERNETHEALTH_X, Consts.INTERNETHEALTH_Y);
 			
 		mainTimer = new Timer(10, this);
 		mainTimer.start();
@@ -35,12 +40,26 @@ public class GamePanel extends JPanel implements ActionListener {
 		Graphics2D g2d = (Graphics2D) g;
 		localPlayer.draw(g2d);
 		internetPlayer.draw(g2d);
+		localHealthBar.draw(g2d);
+		internetHealthBar.draw(g2d);
+		
 	}
 	
 	
 	//Clock Loop
 	public void actionPerformed(ActionEvent arg0) {
-		localPlayer.update();
+		localPlayer.update(true);
+		
+		if((localPlayer.intersects(internetPlayer)) && (localPlayer.attacking)){
+			int tmpHealth = internetPlayer.getHealth();
+			int newHealth = tmpHealth-localPlayer.getAttackDamage();
+			internetPlayer.setHealth(newHealth);
+		}
+		if((internetPlayer.intersects(internetPlayer)) && (internetPlayer.attacking)){
+			int tmpHealth = localPlayer.getHealth();
+			int newHealth = tmpHealth-internetPlayer.getAttackDamage();
+			localPlayer.setHealth(newHealth);
+		}
 		
 		PlayerInfo b = new PlayerInfo();
 		b.x = localPlayer.getx();
@@ -48,6 +67,11 @@ public class GamePanel extends JPanel implements ActionListener {
 		b.dx = localPlayer.getdx();
 		b.dy = localPlayer.getdy();
 		b.health = localPlayer.getHealth();
+		b.left = localPlayer.left;
+		b.right = localPlayer.right;
+		b.jumping = localPlayer.jumping;
+		b.falling = localPlayer.falling;
+		b.attacking = localPlayer.attacking;
 		
 		network.sendPlayer(b);
 		
@@ -55,6 +79,16 @@ public class GamePanel extends JPanel implements ActionListener {
 		internetPlayer.setHealth(rec.health);
 		internetPlayer.setPosition(rec.x, rec.y);
 		internetPlayer.setVector(rec.dx, rec.dy);
+		internetPlayer.setLeft(rec.left);
+		internetPlayer.setRight(rec.right);
+		internetPlayer.setJumping(rec.jumping);
+		internetPlayer.setFalling(rec.falling);
+		internetPlayer.setAttacking(rec.attacking);
+		
+		internetPlayer.update(false);
+		
+		localHealthBar.set_health(localPlayer.getHealth());
+		internetHealthBar.set_health(internetPlayer.getHealth());
 			
 		repaint();
 	}

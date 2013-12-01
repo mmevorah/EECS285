@@ -9,15 +9,12 @@ import javax.imageio.ImageIO;
 public class Player extends Entity {
 	// player stuff
 	private int health;
-	private int maxHealth;
-	private int fire;
-	private int maxFire;
 	private boolean dead;
 	
 	// scratch
-	private boolean scratching;
-	private int scratchDamage;
-	private int scratchRange;
+	public boolean attacking;
+	private int attackDamage;
+	private int attackRange;
 
 	// animations
 	private ArrayList<BufferedImage[]> sprites;
@@ -30,7 +27,7 @@ public class Player extends Entity {
 	private static final int WALKING = 1;
 	private static final int JUMPING = 2;
 	private static final int FALLING = 3;
-	private static final int SCRATCHING = 6;
+	private static final int ATTACKING = 6;
 	
 	public Player(int x, int y) {
 		
@@ -51,10 +48,10 @@ public class Player extends Entity {
 		
 		facingRight = true;
 		
-		health = maxHealth = 5;
+		health = 100;
 		
-		scratchDamage = 8;
-		scratchRange = 40;
+		attackDamage = 5;
+		attackRange = 40;
 		
 		// load sprites
 		try {
@@ -82,7 +79,7 @@ public class Player extends Entity {
 								height
 						);
 					}
-					else {
+					else {//ATTACKING
 						bi[j] = spritesheet.getSubimage(
 								j * width * 2,
 								i * height,
@@ -118,15 +115,11 @@ public class Player extends Entity {
 		health = h;
 	}
 	
-	public int getMaxHealth() { return maxHealth; }
-	public int getFire() { return fire; }
-	public int getMaxFire() { return maxFire; }
 	
-	public void setScratching() {
-		scratching = true;
+	public void setAttacking(boolean s) {
+		attacking = s;
 	}
 
-	
 	private void getNextPosition() {
 		
 		// movement
@@ -158,17 +151,14 @@ public class Player extends Entity {
 		}
 		
 		// cannot move while attacking, except in air
-	/*	if(
-		(currentAction == SCRATCHING || currentAction == FIREBALL) &&
-		!(jumping || falling)) {
+		if(currentAction == ATTACKING) {
 			dx = 0;
-		}*/ 
+		}
 		
 		// jumping
-		//System.out.println("J:"+jumping+" f:"+falling);
 		if(jumping && !falling) {
 			dy = jumpStart;
-			falling = true;	
+			falling = true;
 		}	
 		// falling
 		if(falling) {
@@ -194,18 +184,20 @@ public class Player extends Entity {
 		
 	}
 	
-	public void update() {
+	public void update(boolean isLocal) {
 		
 		// update position
-		getNextPosition();	
-		checkTileMapCollision();	
-		setPosition(xtemp, ytemp);
+		if(isLocal){
+			getNextPosition();	
+			checkCollision();		
+			setPosition(xtemp, ytemp);
+		}
 		
 		// set animation
-		if(scratching) {
-			if(currentAction != SCRATCHING) {
-				currentAction = SCRATCHING;
-				animation.setFrames(sprites.get(SCRATCHING));
+		if(attacking) {
+			if(currentAction != ATTACKING) {
+				currentAction = ATTACKING;
+				animation.setFrames(sprites.get(ATTACKING));
 				animation.setDelay(50);
 				width = 60;
 			}
@@ -246,17 +238,12 @@ public class Player extends Entity {
 		animation.update();
 		
 		// set direction
-		if(currentAction != SCRATCHING) {
+		if(currentAction != ATTACKING) {
 			if(right) facingRight = true;
 			if(left) facingRight = false;
 		}
 		
 	}
-	
-	
-	
-	
-	
 	
 	public void draw(Graphics2D g) {
 		
@@ -283,16 +270,20 @@ public class Player extends Entity {
 		
 	}
 	
+	public int getAttackDamage(){
+		return attackDamage;
+	}
+	
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_W) {
 			setJumping(true);
-		} else if(key == KeyEvent.VK_S) {
-			setDown(true);
 		} else if(key == KeyEvent.VK_A) {
 			setLeft(true);
 		} else if(key == KeyEvent.VK_D) {
 			setRight(true);
+		} else if(key == KeyEvent.VK_SHIFT){
+			setAttacking(true);
 		}
 	}
 	
@@ -300,12 +291,12 @@ public class Player extends Entity {
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_W) {
 			setJumping(false);
-		} else if(key == KeyEvent.VK_S) {
-			setDown(false);
 		} else if(key == KeyEvent.VK_A) {
 			setLeft(false);
 		} else if(key == KeyEvent.VK_D) {
 			setRight(false);
+		} else if(key == KeyEvent.VK_SHIFT){
+			setAttacking(false);
 		}
 	}
 }

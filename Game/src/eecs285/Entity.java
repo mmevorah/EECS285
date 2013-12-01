@@ -31,8 +31,6 @@ public abstract class Entity {
 	// collision
 	protected int currRow;
 	protected int currCol;
-	protected double xdest;
-	protected double ydest;
 	protected double xtemp;
 	protected double ytemp;
 	protected boolean topLeft;
@@ -49,8 +47,6 @@ public abstract class Entity {
 	// movement
 	protected boolean left;
 	protected boolean right;
-	protected boolean up;
-	protected boolean down;
 	protected boolean jumping;
 	protected boolean falling;
 	
@@ -96,76 +92,21 @@ public abstract class Entity {
 			y = Consts.TOP_BOUND; 
 		}
 		if(y >= Consts.BOTTOM_BOUND) {
+			falling = false;
 			y = Consts.BOTTOM_BOUND;
+		}else{
+			falling = true;
 		}
 	}
 	
-	public void checkTileMapCollision() {
+	public void checkCollision() {
 		screenBounds();
 		currCol = (int)x / Consts.RIGHT_BOUND;
 		currRow = (int)y / Consts.BOTTOM_BOUND;
 		
-		xdest = x + dx;
-		ydest = y + dy;
+		xtemp = x + dx;
+		ytemp = y + dy;
 		
-		xtemp = x;
-		ytemp = y;
-		
-		if(dy < 0) {
-			if((x == 0 && ydest == 0) || (x == 750 && ydest == 0)) {
-				dy = 0;
-				ytemp = currRow * 555 + cheight / 2;
-			}
-			else {
-				ytemp += dy;
-			}
-		}
-		
-		System.out.println("dy:"+dy);
-		if(dy > 0) {
-			//bottomLeft || bottomRight
-			if((x == 0 && ydest == 555) || (x == 750 && ydest == 555)) {
-				dy = 0;
-				falling = false;
-				ytemp = (currRow + 1) * 555 - cheight / 2;
-			}
-			else {
-				if(ydest == Consts.BOTTOM_BOUND){
-					System.out.println("Hit Bottom");
-					falling = false;
-				}
-				ytemp += dy;
-			}
-		}
-		
-		if(dx < 0) {
-			//topLeft || bottomLeft
-			if((xdest == 0 && y == 0) || (xdest == 0 && y == 555)) {
-				dx = 0;
-				xtemp = currCol * 750 + cwidth / 2;
-			}
-			else {
-				xtemp += dx;
-			}
-		}
-		if(dx > 0) {
-			//topRight || bottomRight
-			if((xdest == 800 && y == 0) || (xdest == 800 && y == 555)) {
-				dx = 0;
-				xtemp = (currCol + 1) * 750 - cwidth / 2;
-			}
-			else {
-				xtemp += dx;
-			}
-		}
-		
-		if(!falling) {
-			//System.out.println("Not Falling");
-			//!bottomLeft || !bottomRight
-			if((x < 0 && ydest + 1 > 555) || !(x > 750 && ydest + 1 > 555)) {
-				falling = true;
-			}
-		}
 		
 	}
 	
@@ -215,9 +156,8 @@ public abstract class Entity {
 	
 	public void setLeft(boolean b) { left = b; }
 	public void setRight(boolean b) { right = b; }
-	public void setUp(boolean b) { up = b; }
-	public void setDown(boolean b) { down = b; }
 	public void setJumping(boolean b) { jumping = b; }
+	public void setFalling(boolean b) { falling = b; }
 	
 	public boolean notOnScreen() {
 		System.out.println("GamePanel width: " + GamePanel.WIDTH + "GamePanel height: " + GamePanel.HEIGHT);
