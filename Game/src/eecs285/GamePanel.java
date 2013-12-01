@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	
 		localPlayer = new Player(100, 100);
 		addKeyListener(new KeyAdapt(localPlayer));
+		internetPlayer = new Player(100,100);
 		
 		this.network = network;
 			
@@ -41,8 +42,19 @@ public class GamePanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		localPlayer.update();
 		
-		network.sendPlayer(localPlayer);
-		internetPlayer = network.recvPlayer();
+		PlayerInfo b = new PlayerInfo();
+		b.x = localPlayer.getx();
+		b.y = localPlayer.gety();
+		b.dx = localPlayer.getdx();
+		b.dy = localPlayer.getdy();
+		b.health = localPlayer.getHealth();
+		
+		network.sendPlayer(b);
+		
+		PlayerInfo rec = network.recvPlayer();
+		internetPlayer.setHealth(rec.health);
+		internetPlayer.setPosition(rec.x, rec.y);
+		internetPlayer.setVector(rec.dx, rec.dy);
 			
 		repaint();
 	}

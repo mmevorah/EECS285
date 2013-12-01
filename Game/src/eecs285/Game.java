@@ -38,7 +38,6 @@ public class Game {
 		//Server
 		if(ipInfo.equals("")){
 			
-			localPlayer = new Player(Consts.LEFT_XPOS, Consts.LEFT_YPOS);
 			
 			InetAddress ip = null;
 			try{

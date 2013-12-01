@@ -22,6 +22,6 @@ public class ClientDemo
 		theClient.startClient();
 		
 		Player recvPlayer = theClient.recvPlayer();
-		System.out.println("Received this message from server: " + recvPlayer.y);
+		System.out.println("Received this message from server: " + recvPlayer.getx());
 	}
 }

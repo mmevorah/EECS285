@@ -14,10 +14,10 @@ public class KeyAdapt extends KeyAdapter {
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		//p.keyPressed(e);
+		p.keyPressed(e);
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		//p.keyReleased(e);
+		p.keyReleased(e);
 	}
 }

@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import eecs285.Player;
+import eecs285.PlayerInfo;
 
 public class ClientServerSocket {
 
@@ -70,18 +70,17 @@ public class ClientServerSocket {
 	}
 
 
-	public boolean sendPlayer(Player pToSend)
+	public boolean sendPlayer(PlayerInfo pToSend)
 	{
 		boolean success = false;
 		try
-		{
-			Player p = new Player(pToSend.x, pToSend.y);
-			
-			outData.writeObject(p);
+		{			
+			outData.writeObject(pToSend);
 			success = true;
 		}
 		catch (IOException e)
 		{
+			e.printStackTrace();
 			System.out.println("Caught IOException Writing To Socket Stream!");
 			System.exit(-1);
 		}
@@ -89,13 +88,13 @@ public class ClientServerSocket {
 	}
 
 	
-	public Player recvPlayer(
+	public PlayerInfo recvPlayer(
 			) 
 	{
-		Player p = null;
+		PlayerInfo p = null;
 		try
 		{
-			p = (Player) inData.readObject();
+			p = (PlayerInfo) inData.readObject();
 		}
 		catch (Exception ioe)
 		{

@@ -1,94 +1,24 @@
 package eecs285;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Player extends Entity implements Serializable{
+import javax.imageio.ImageIO;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/*int velX = 0, velY = 0;
-	int speed = 2;
-	public Player(int x, int y) {
-		super(x, y);
-	}
-	
-	public void update() {
-		x += velX;
-
-		
-	}
-	public void draw(Graphics2D g2d) {
-		//Gets player image and coordinates
-		g2d.drawImage(getPlayerImg(), x, y, null);
-		//g2d.draw(getBounds());
-	}
-	
-	//Returns the updated player image
-	public Image getPlayerImg() {
-		ImageIcon ic = new ImageIcon(getClass().getResource("/eecs285/graphics/player.png"));
-		return ic.getImage();
-	}
-	
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_W) {
-			velY = -speed;
-		} else if(key == KeyEvent.VK_S) {
-			velY = speed;
-		} else if(key == KeyEvent.VK_A) {
-			velX = -speed;
-		} else if(key == KeyEvent.VK_D) {
-			velX = speed;
-		}
-	}
-	
-	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_W) {
-			velY = 0;
-		} else if(key == KeyEvent.VK_S) {
-			velY = 0;
-		} else if(key == KeyEvent.VK_A) {
-			velX = 0;
-		} else if(key == KeyEvent.VK_D) {
-			velX = 0;
-		}
-	}
-	
-	public Rectangle getBounds() {
-		return new Rectangle(x, y, getPlayerImg().getWidth(null), 
-				getPlayerImg().getHeight(null));	
-	}
-	*/
-	
+public class Player extends Entity {
 	// player stuff
 	private int health;
 	private int maxHealth;
 	private int fire;
 	private int maxFire;
 	private boolean dead;
-	private boolean flinching;
-	private long flinchTimer;
-	
-	// fireball
-	private boolean firing;
-	private int fireCost;
-	private int fireBallDamage;
-	//private ArrayList<FireBall> fireBalls;
 	
 	// scratch
 	private boolean scratching;
 	private int scratchDamage;
 	private int scratchRange;
-	
-	// gliding
-	private boolean gliding;
-	
+
 	// animations
 	private ArrayList<BufferedImage[]> sprites;
 	private final int[] numFrames = {
@@ -100,8 +30,6 @@ public class Player extends Entity implements Serializable{
 	private static final int WALKING = 1;
 	private static final int JUMPING = 2;
 	private static final int FALLING = 3;
-	private static final int GLIDING = 4;
-	private static final int FIREBALL = 5;
 	private static final int SCRATCHING = 6;
 	
 	public Player(int x, int y) {
@@ -124,11 +52,6 @@ public class Player extends Entity implements Serializable{
 		facingRight = true;
 		
 		health = maxHealth = 5;
-		fire = maxFire = 2500;
-		
-		fireCost = 200;
-		fireBallDamage = 5;
-		//fireBalls = new ArrayList<FireBall>();
 		
 		scratchDamage = 8;
 		scratchRange = 40;
@@ -186,20 +109,23 @@ public class Player extends Entity implements Serializable{
 		
 	}
 	
-	public int getHealth() { return health; }
+	
+	public int getHealth() { 
+		return health; 
+	}
+	
+	public void setHealth(int h){
+		health = h;
+	}
+	
 	public int getMaxHealth() { return maxHealth; }
 	public int getFire() { return fire; }
 	public int getMaxFire() { return maxFire; }
 	
-	public void setFiring() { 
-		firing = true;
-	}
 	public void setScratching() {
 		scratching = true;
 	}
-	public void setGliding(boolean b) { 
-		gliding = b;
-	}
+
 	
 	private void getNextPosition() {
 		
@@ -232,28 +158,37 @@ public class Player extends Entity implements Serializable{
 		}
 		
 		// cannot move while attacking, except in air
-		if(
+	/*	if(
 		(currentAction == SCRATCHING || currentAction == FIREBALL) &&
 		!(jumping || falling)) {
 			dx = 0;
-		}
+		}*/ 
 		
 		// jumping
+		//System.out.println("J:"+jumping+" f:"+falling);
 		if(jumping && !falling) {
 			dy = jumpStart;
 			falling = true;	
-		}
-		
+		}	
 		// falling
 		if(falling) {
 			
-			if(dy > 0 && gliding) dy += fallSpeed * 0.1;
-			else dy += fallSpeed;
+			if(dy > 0){
+				dy += fallSpeed * 0.1;
+			}else{
+				dy += fallSpeed;
+			}
 			
-			if(dy > 0) jumping = false;
-			if(dy < 0 && !jumping) dy += stopJumpSpeed;
+			if(dy > 0) 	jumping = false;
+
 			
-			if(dy > maxFallSpeed) dy = maxFallSpeed;
+			if(dy < 0 && !jumping){
+				dy += stopJumpSpeed;
+			}
+			
+			if(dy > maxFallSpeed){
+				dy = maxFallSpeed;
+			}
 			
 		}
 		
@@ -262,8 +197,8 @@ public class Player extends Entity implements Serializable{
 	public void update() {
 		
 		// update position
-		getNextPosition();
-		checkTileMapCollision();
+		getNextPosition();	
+		checkTileMapCollision();	
 		setPosition(xtemp, ytemp);
 		
 		// set animation
@@ -275,24 +210,8 @@ public class Player extends Entity implements Serializable{
 				width = 60;
 			}
 		}
-		else if(firing) {
-			if(currentAction != FIREBALL) {
-				currentAction = FIREBALL;
-				animation.setFrames(sprites.get(FIREBALL));
-				animation.setDelay(100);
-				width = 30;
-			}
-		}
-		else if(dy > 0) {
-			if(gliding) {
-				if(currentAction != GLIDING) {
-					currentAction = GLIDING;
-					animation.setFrames(sprites.get(GLIDING));
-					animation.setDelay(100);
-					width = 30;
-				}
-			}
-			else if(currentAction != FALLING) {
+		if(dy > 0) {	
+			if(currentAction != FALLING) {
 				currentAction = FALLING;
 				animation.setFrames(sprites.get(FALLING));
 				animation.setDelay(100);
@@ -327,26 +246,21 @@ public class Player extends Entity implements Serializable{
 		animation.update();
 		
 		// set direction
-		if(currentAction != SCRATCHING && currentAction != FIREBALL) {
+		if(currentAction != SCRATCHING) {
 			if(right) facingRight = true;
 			if(left) facingRight = false;
 		}
 		
 	}
 	
+	
+	
+	
+	
+	
 	public void draw(Graphics2D g) {
 		
-		setMapPosition();
-		
-		// draw player
-		if(flinching) {
-			long elapsed =
-				(System.nanoTime() - flinchTimer) / 1000000;
-			if(elapsed / 100 % 2 == 0) {
-				return;
-			}
-		}
-		
+		setMapPosition();	
 		if(facingRight) {
 			g.drawImage(
 				animation.getImage(),
@@ -367,5 +281,31 @@ public class Player extends Entity implements Serializable{
 			
 		}
 		
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_W) {
+			setJumping(true);
+		} else if(key == KeyEvent.VK_S) {
+			setDown(true);
+		} else if(key == KeyEvent.VK_A) {
+			setLeft(true);
+		} else if(key == KeyEvent.VK_D) {
+			setRight(true);
+		}
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_W) {
+			setJumping(false);
+		} else if(key == KeyEvent.VK_S) {
+			setDown(false);
+		} else if(key == KeyEvent.VK_A) {
+			setLeft(false);
+		} else if(key == KeyEvent.VK_D) {
+			setRight(false);
+		}
 	}
 }
