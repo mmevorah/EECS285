@@ -1,14 +1,15 @@
 package eecs285;
 
-import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -23,17 +24,31 @@ public class GamePanel extends JPanel implements ActionListener {
 	HealthBar localHealthBar;
 	HealthBar internetHealthBar;
 	
-	public GamePanel(ClientServerSocket network) { 
+	BufferedImage bimg;
+	
+	public GamePanel(ClientServerSocket network, int pType) { 
 		setFocusable(true);
 	
-		localPlayer = new Player(100, 100);
+		localPlayer = new Player(400, 100, pType);
+		
 		addKeyListener(new KeyAdapt(localPlayer));
-		internetPlayer = new Player(100,100);
+		
+		int blah = 1;
+		if(pType == 1){
+			blah = 2;
+		}
+		internetPlayer = new Player(400,100, blah);		
 		
 		this.network = network;
 		
 		this.localHealthBar = new HealthBar(Consts.LOCALHEALTH_X, Consts.LOCALHEALTH_Y, true);
 		this.internetHealthBar = new HealthBar(Consts.INTERNETHEALTH_X, Consts.INTERNETHEALTH_Y, false);
+				
+		try {
+			this.bimg = ImageIO.read(new File(Consts.MAP1_FILEPATH));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		mainTimer = new Timer(10, this);
 		mainTimer.start();
@@ -42,11 +57,11 @@ public class GamePanel extends JPanel implements ActionListener {
 	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.drawImage(bimg, null, -300, -550);
 		localPlayer.draw(g2d);
 		internetPlayer.draw(g2d);
 		localHealthBar.draw(g2d);
 		internetHealthBar.draw(g2d);
-		
 	}
 	
 	
@@ -55,16 +70,27 @@ public class GamePanel extends JPanel implements ActionListener {
 		localPlayer.update(true);
 				
 	
-		if((localPlayer.intersects(internetPlayer)) && (localPlayer.attacking)){			
+		if((localPlayer.intersects(internetPlayer)) && (localPlayer.attack)){			
+			
 			int tmpHealth = internetPlayer.getHealth();
 			int newHealth = tmpHealth-localPlayer.getAttackDamage();
 			
 			System.out.println("oldh:"+tmpHealth+" newh:"+newHealth);
 			internetPlayer.setHealth(newHealth);
 			
-			localPlayer.attacking = false;
+			localPlayer.attack = false;
 		}
 		
+		if(internetPlayer.getHealth() == 0){
+			JOptionPane.showMessageDialog(null, "You Win!", "Game Over",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.exit(4);
+		}
+		if(localPlayer.getHealth() == 0){
+			JOptionPane.showMessageDialog(null,"You Lose!", "Game Over",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.exit(4);
+		}
 		
 		PlayerInfo b = new PlayerInfo();
 		b.x = localPlayer.getx();
@@ -101,16 +127,6 @@ public class GamePanel extends JPanel implements ActionListener {
 		internetHealthBar.set_health(internetPlayer.getHealth());
 			
 		repaint();
-	}
-	
-	public void setBackGround(JFrame mainframe, ImageIcon image)
-	{
-		//this will just take in a jframe that we will make in the main
-		//and set the background of it to the image location set 
-		//as the second variable
-		mainframe.setLayout(new BorderLayout());
-		JLabel background=new JLabel(image);
-		mainframe.add(background);
 	}
 	
 }
