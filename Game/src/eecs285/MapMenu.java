@@ -1,5 +1,6 @@
 package eecs285;
 
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +16,7 @@ public class MapMenu extends JFrame {
 	private JButton b1;
 	private JButton b2;
 	private MapListener mapListener; 
-	
+	public ImageIcon mapIcon;
 	public MapMenu(String title) {
 		super(title);
 		b1 = new JButton(new ImageIcon("map1.jpg"));
@@ -44,8 +45,10 @@ public class MapMenu extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == b1)
 			{
+				setVisible(true);
 				b1.setEnabled(false);
-
+				mapIcon = new ImageIcon("map1.jpg");
+				ImageIcMap();
 				//close
 				dispose();
 				
@@ -64,26 +67,28 @@ public class MapMenu extends JFrame {
 			else if (e.getSource() == b2)
 			{
 				b2.setEnabled(false);
-
-				//close();
-				dispose();
+				mapIcon = new ImageIcon("map2.jpg");
+				ImageIcMap();
 				
-				// communicate selection to board
-				// must set map Image here
-				
-				// open Player Menu
 				PlayerMenu play = new PlayerMenu("Player Menu");
 				play.setSize(800, 600);
 				play.setVisible(true);
 				play.setResizable(true);
 				play.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				//close();
+				dispose();
+				
+
 			}
 			else
 			{
 				// error case should not happen
 			}
 		}
-
+	}
+	
+	public ImageIcon ImageIcMap() {
+		return mapIcon;
 	}
 	
 }

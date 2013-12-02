@@ -13,6 +13,7 @@ public class PlayerMenu extends JFrame {
 	private JButton b1;
 	private JButton b2;
 	private PlayerListener playerListener; 
+	public ImageIcon playerIcon;
 	
 	public PlayerMenu(String title) {
 		super(title);
@@ -34,37 +35,33 @@ public class PlayerMenu extends JFrame {
 
 	public class PlayerListener implements ActionListener {
 
-		/* (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == b1)
 			{
 				b1.setEnabled(false);
+				playerIcon = new ImageIcon("map1.jpg");
+				ImageIcPlayer();
 				
-				//close();
+				// close window
 				dispose();
-				
-				// communicate selection to board
-				// must set player Image here
-				
 			}
 			else if (e.getSource() == b2)
 			{
 				b2.setEnabled(false);
+				playerIcon = new ImageIcon("map2.jpg");
+				ImageIcPlayer();
 				
-				//close();
+				// close window
 				dispose();
-				
-				// communicate selection to board
-				// must set player Image here
-							
 			}
 			else
 			{
 				// error case should not happen
 			}
 		}
-
+	}
+	
+	public ImageIcon ImageIcPlayer() {
+		return playerIcon;
 	}
 }
