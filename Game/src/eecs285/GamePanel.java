@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(bimg, null, -300, -550);
+		g2d.drawImage(bimg, null, 0, -20);
 		localPlayer.draw(g2d);
 		internetPlayer.draw(g2d);
 		localHealthBar.draw(g2d);
